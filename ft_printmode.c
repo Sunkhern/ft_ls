@@ -6,7 +6,7 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 20:48:42 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 20:51:04 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/22 17:57:17 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,32 @@ void	lswritemode(mode_t mode)
 	ft_putstr("  ");
 }
 
-void	print_l(struct stat mystat, int *sizes, char *dir)
+void	blocks(char **tab, char *dir, int arg)
+{
+	struct stat	mystat;
+	char		*buf;
+	int			i;
+	int			ct;
+
+	i = 0;
+	ct = 0;
+	while (tab[i])
+	{
+		buf = ft_strjoin(dir, tab[i]);
+		lstat(buf, &mystat);
+		if (arg % 7 == 0)
+			ct = ct + mystat.st_blocks;
+		else if (tab[i][0] != '.')
+			ct = ct + mystat.st_blocks;
+		free(buf);
+		i++;
+	}
+	ft_putstr("total ");
+	ft_putnbr(ct);
+	ft_putchar('\n');
+}
+
+void	print_l(struct stat mystat, int *sizes)
 {
 	lswritemode(mystat.st_mode);
 	print_sizei(sizes[0], mystat.st_nlink);
@@ -48,5 +73,5 @@ void	print_l(struct stat mystat, int *sizes, char *dir)
 		print_majmin(sizes, major(mystat.st_rdev), minor(mystat.st_rdev));
 	else
 		print_sizei(sizes[3], mystat.st_size);
-	print_time(ctime(&mystat.st_mtime), dir);
+	print_time(ctime(&mystat.st_mtime));
 }

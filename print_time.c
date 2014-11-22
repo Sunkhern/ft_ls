@@ -6,17 +6,16 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 19:12:38 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 21:36:50 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/22 16:57:26 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_time(char *time, char *dir)
+void	print_time(char *time)
 {
 	char	*str;
 	char	*buf;
-	char	*buf2;
 	int		i;
 	int		j;
 

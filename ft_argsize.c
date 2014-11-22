@@ -6,13 +6,11 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 15:45:04 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 20:45:45 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/20 14:54:32 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include <time.h>
-#include <stdio.h>
 
 int		nlinksize(char **tab, char *dir)
 {

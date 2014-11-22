@@ -6,77 +6,114 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/14 11:24:45 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 20:55:45 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/22 17:57:23 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		dirvalue(char *tdir)
+void	getargr(char **tab, char *tdir, int arg)
 {
-	int				ct;
-	DIR				*lsdir;
-	struct dirent	*lsfile;
-
-	lsdir = opendir(tdir);
-	while ((lsfile = readdir(lsdir)) != NULL)
-		ct++;
-	closedir(lsdir);
-	return (ct);
+	if (arg % 5 == 0)
+	{
+		if (arg % 23 != 0)
+			arg = arg * 23;
+		argbigr(tab, tdir, arg);
+	}
 }
 
-int		getdata(char *tdir, int arg)
+void	getdata(char *tdir, int arg)
 {
 	int				i;
-	int				len;
 	DIR				*lsdir;
 	struct dirent	*lsfile;
 	char			**tab;
 
 	i = 0;
-	lsdir = opendir(tdir);
+	if (!(lsdir = opendir(tdir)))
+		return ;
 	tab = (char **)ft_memalloc(sizeof(char *) * dirvalue(tdir) + 1);
 	while ((lsfile = readdir(lsdir)) != NULL)
 	{
-		if (arg % 7 == 0)
+		tab[i] = ft_strdup(lsfile->d_name);
+		i++;
+	}
+	tab[i] = NULL;
+	tab = ft_sort(tab);
+	printdata(tab, i, arg, tdir);
+	arg = littleln(arg);
+	getargr(tab, tdir, arg);
+	free(tab);
+	closedir(lsdir);
+}
+
+int		rev_treatment(char **argv, char **tab, int arg)
+{
+	int i;
+	int j;
+
+	i = dirnb(argv) - 1;
+	j = 0;
+	while (i >= 0)
+	{
+		if (tab[i][0] != '-')
 		{
-			tab[i] = ft_strdup(lsfile->d_name);
-			i++;
+			getdata(tab[i], arg);
+			j = 1;
 		}
-		else if (ft_strncmp(lsfile->d_name, ".", 1) != 0)
+		i--;
+	}
+	return (j);
+}
+
+int		first_treatment(char **argv, char **tab, int arg)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (arg % 11 == 0)
+		j = rev_treatment(argv, tab, arg);
+	else
+	{
+		while (i < dirnb(argv))
 		{
-			tab[i] = ft_strdup(lsfile->d_name);
+			if (tab[i][0] != '-')
+			{
+				getdata(tab[i], arg);
+				j = 1;
+			}
 			i++;
 		}
 	}
-	tab[i] = NULL;
-	printdata(tab, i, arg, tdir);
-	closedir(lsdir);
+	return (j);
 }
 
 int		main(int argc, char **argv)
 {
-	int		i;
+	int		ct;
 	int		j;
 	int		arg;
+	char	**tab;
 
+	ct = 0;
 	j = 0;
-	i = 1;
 	arg = treat_core(argv, argc);
-	if (arg == -1)
+	if (argc > 1)
 	{
-		ft_putstr("ls illegal option -- ");
+		if (argv[1][0] != '-')
+			arg = 1;
+	}
+	if (iswrongarg(arg, argv) == 0)
 		return (0);
-	}
-	while (i < argc)
-	{
-		if (argv[i][0] != '-')
-		{
-			getdata(argv[i], arg);
-			j = 1;
-		}
-		i++;
-	}
+	if (ismulti(argv) == 1)
+		arg = arg * 17;
+	if (argc > 1 && dirnb(argv) > 0)
+		tab = dirsort(argv, arg);
+	if (arg % 17 == 0)
+		tab = ft_sorttime(ct, tab, "");
+	j = first_treatment(argv, tab, arg);
 	if (j == 0)
 		getdata(".", arg);
 	return (0);

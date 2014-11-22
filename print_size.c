@@ -6,7 +6,7 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 16:24:17 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 20:41:42 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/22 16:57:29 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	print_sizec2(int size, char *data)
 	ct = 0;
 	if (ft_strlen(data) < size)
 		ct = size - ft_strlen(data);
+	ft_putstr(data);
 	while (ct > 0)
 	{
 		ft_putchar(' ');
 		ct--;
 	}
-	ft_putstr(data);
 	ft_putchar(' ');
 	ft_putchar(' ');
 }
@@ -66,11 +66,9 @@ void	print_majmin(int *size, int major, int minor)
 {
 	int		ct;
 	int		ct2;
-	int		ct3;
 
 	ct = 0;
 	ct2 = 0;
-	ct3 = 0;
 	if (intsize(minor) < size[4])
 		ct2 = size[4] - intsize(minor);
 	if (intsize(major) < size[5])

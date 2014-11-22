@@ -6,7 +6,7 @@
 /*   By: wromano <wromano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 20:47:23 by wromano           #+#    #+#             */
-/*   Updated: 2014/11/17 20:50:24 by wromano          ###   ########.fr       */
+/*   Updated: 2014/11/22 16:48:16 by wromano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		argcheck(char *core, int ct)
 	int		i;
 
 	i = 1;
-	while (core[i] && i <= 5)
+	while (core[i])
 	{
 		if (core[i] == 'l' && ct % 3 != 0)
 			ct *= 3;
@@ -31,7 +31,7 @@ int		argcheck(char *core, int ct)
 			ct *= 13;
 		else if (core[i] == 'l' || core[i] == 'R' || core[i] == 'a' ||
 				core[i] == 'r' || core[i] == 't')
-			return (ct);
+			ct = ct;
 		else
 			return (-1);
 		i++;
@@ -42,7 +42,6 @@ int		argcheck(char *core, int ct)
 int		treat_core(char **core, int argnb)
 {
 	int		i;
-	int		j;
 	int		ct;
 
 	i = 1;
@@ -57,6 +56,8 @@ int		treat_core(char **core, int argnb)
 			if (ct < 0)
 				return (-1);
 		}
+		else
+			return (ct);
 		i++;
 	}
 	return (ct);
